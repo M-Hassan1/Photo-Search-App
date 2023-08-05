@@ -4,12 +4,14 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { searchImages } from '@/app/lib/api';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { IoMdDownload } from 'react-icons/io';
 import LoadingSpinner from '../Header/LoadingSpinner';
 
 const HeaderPage = () => {
   const [query, setQuery] = useState('');
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [hoveredImage, setHoveredImage] = useState(null);
 
   const handleSearch = async () => {
     try {
@@ -21,6 +23,15 @@ const HeaderPage = () => {
       console.error('Error fetching images:', error);
       setLoading(false);
     }
+  };
+
+  const handleDownloadImage = (imageUrl : any, imageName : any) => {
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = imageName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -56,11 +67,30 @@ const HeaderPage = () => {
               </h1>
             </div>
           ) : (
-            // Show the images once fetched
             images.map((image: any) => (
-              <Image
-                key={image.id} src={image.urls.small} alt={image.alt_description} className='w-full h-40 object-cover' layout='responsive' width={300} height={300}
-              />
+              <div
+                key={image.id}
+                className='relative w-full h-40 object-cover'
+                onMouseEnter={() => setHoveredImage(image)}
+                onMouseLeave={() => setHoveredImage(null)}
+              >
+                <Image
+                  src={image.urls.small}
+                  alt={image.alt_description}
+                  className='w-full h-full'
+                  layout='responsive'
+                  width={300}
+                  height={300}
+                />
+                {hoveredImage === image && (
+                  <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-30'>
+                    <IoMdDownload
+                      className='text-white text-3xl cursor-pointer'
+                      onClick={() => handleDownloadImage(image.urls.regular, `${image.id}.jpg`)}
+                    />
+                  </div>
+                )}
+              </div>
             ))
           )}
         </div>
