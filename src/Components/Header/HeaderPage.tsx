@@ -59,13 +59,7 @@ const HeaderPage = () => {
             // Show the images once fetched
             images.map((image: any) => (
               <Image
-                key={image.id}
-                src={image.urls.small}
-                alt={image.alt_description}
-                className='w-full h-40 object-cover'
-                layout='responsive'
-                width={300} // Adjust this based on your desired image width
-                height={300} // Adjust this based on your desired image height
+                key={image.id} src={image.urls.small} alt={image.alt_description} className='w-full h-40 object-cover' layout='responsive' width={300} height={300}
               />
             ))
           )}
