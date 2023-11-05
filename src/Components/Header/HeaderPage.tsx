@@ -35,8 +35,10 @@ const HeaderPage = () => {
   };
 
   return (
-    <header className='w-full h-screen flex flex-col items-center px-4 py-8 sm:px-8 md:px-16 lg:px-32 xl:px-48'>
-      <div className='w-full max-w-[800px]'>
+    <header className='
+    w-full h-full flex flex-col items-center px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 
+    '>
+      <div className='w-full max-w-5xl'>
         <h1 className='text-4xl m-4 font-bold text-center'>
           Photo Search App
         </h1>
@@ -55,13 +57,13 @@ const HeaderPage = () => {
             <AiOutlineSearch />
           </button>
         </div>
-        <div className='mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+        <div className='mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
           {loading ? (
-            <div className='w-full h-40 flex items-center justify-center'>
+            <div className='w-full col-span-full flex items-center justify-center'>
               <LoadingSpinner />
             </div>
           ) : images.length === 0 ? (
-            <div className='w-full col-span-4 flex items-center justify-center'>
+            <div className='w-full col-span-full flex items-center justify-center'>
               <h1 className='text-gray-600 text-2xl font-bold'>
                 Not Found
               </h1>
@@ -70,17 +72,11 @@ const HeaderPage = () => {
             images.map((image: any) => (
               <div
                 key={image.id}
-                className='relative w-full h-40 object-cover'
+                className='relative w-full h-full'
                 onMouseEnter={() => setHoveredImage(image)}
                 onMouseLeave={() => setHoveredImage(null)}
               >
-                <Image
-                  src={image.urls.small}
-                  alt={image.alt_description}
-                  className='w-full h-full'
-                  layout='responsive'
-                  width={300}
-                  height={300}
+                <Image src={image.urls.small} alt={image.alt_description} className='h-full w-full ' width={400} height={400}
                 />
                 {hoveredImage === image && (
                   <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-30'>
